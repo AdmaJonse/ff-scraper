@@ -26,11 +26,10 @@ def get_all_players(year : int) -> List:
 
     for team_id in range(1, teams+1):
         team = league.get_team_data(team_id)
-        owner = team.owner
         for player in team.roster:
             item = {
                 "player": utils.normalize_name(player.name),
-                "owner": utils.normalize_owner(owner),
+                "owner": utils.normalize_owner(team.owners),
                 "team": player.proTeam,
                 "position": player.position
             }
@@ -55,7 +54,7 @@ def get_draft_picks(year : int) -> List:
             "round": pick.round_num,
             "pick": (pick.round_num - 1) * 12 + pick.round_pick,
             "keeper": "Y" if bool(pick.keeper_status) else "N",
-            "owner": utils.normalize_owner(pick.team.owner)
+            "owner": utils.normalize_owner(pick.team.owners)
         }
         picks.append(item)
 
